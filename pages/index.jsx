@@ -1,24 +1,36 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import { useState, useEffect } from "react";
+import Header from "./Header";
+import Main from "./Main";
+import RenderHead from "./RenderHead";
+import Footer from "./Footer";
 
 const Home = () => {
+  const [data, setData] = useState([]);
+
+  const handleForm = (e) => {
+    e.preventDefault();
+    const getCookieStand = {};
+
+    getCookieStand["location"] = e.target.location.value;
+    getCookieStand["minCostumer"] = e.target.minCostumer.value;
+    getCookieStand["maxCostumer"] = e.target.maxCostumer.value;
+    getCookieStand["avgCookie"] = e.target.avgCookie.value;
+
+    setData(data.concat(getCookieStand));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("cookies", JSON.stringify([...data]));
+  });
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <Head>
-        <title>Cookie Stand Admin</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <>
+      <RenderHead title="Cookie Stand Admin" />
+      <Header />
+      <Main handleForm={handleForm} />
+      <Footer />
+    </>
+  );
+};
 
-      <header className=''></header>
-
-      <main className="">
-        
-      </main>
-
-      <footer className="">
-      </footer>
-    </div>
-  )
-}
-
-export default Home
+export default Home;
