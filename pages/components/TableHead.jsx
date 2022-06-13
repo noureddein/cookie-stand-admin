@@ -1,5 +1,4 @@
 import { hours } from "../../data";
-
 const TableHead = () => {
   return (
     <thead>
@@ -17,6 +16,9 @@ const TableHead = () => {
         ))}
         <th className="px-4 py-2 font-extrabold border rounded-lg font-display border-slate-600">
           Total
+        </th>
+        <th className="px-4 py-2 font-extrabold border rounded-lg font-display border-slate-600">
+          Delete
         </th>
       </tr>
     </thead>

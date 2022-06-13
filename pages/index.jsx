@@ -3,15 +3,32 @@ import Header from "./Header";
 import Main from "./Main";
 import RenderHead from "./RenderHead";
 import Footer from "./Footer";
+import { getHourlyCookies, hours } from "../data";
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [totalOfTotal, setTotalOfTotal] = useState(0);
+  const [hourlyTotal, setHourlyTotal] = useState({});
+  const dailyHourlyTotal = {
+    "6am": 0,
+    "7am": 0,
+    "8am": 0,
+    "9am": 0,
+    "10am": 0,
+    "11am": 0,
+    "12pm": 0,
+    "1pm": 0,
+    "2pm": 0,
+    "3pm": 0,
+    "4pm": 0,
+    "5pm": 0,
+    "6pm": 0,
+    "7pm": 0,
+  };
 
   const handleForm = (e) => {
     e.preventDefault();
     const getCookieStand = {};
-
     getCookieStand["location"] = e.target.location.value;
 
     const minCostumer = e.target.minCostumer.value;
@@ -25,43 +42,39 @@ const Home = () => {
     );
     getCookieStand["cookiesPerHour"] = hourlyCookies;
     getCookieStand["totalCookiesDaily"] = totalCookiesDaily;
+
     setTotalOfTotal(totalOfTotal + totalCookiesDaily);
     setData(data.concat(getCookieStand));
   };
 
-  const getHourlyCookies = (max, min, avg) => {
-    const hourlyCookies = [];
-    let totalCookiesDaily = 0;
+  function getHourlyTotals(data) {
+    data.forEach((item) => {
+      for (let i = 0; i < item["cookiesPerHour"].length; i++) {
+        dailyHourlyTotal[hours[i]] += item["cookiesPerHour"][i];
+      }
+    });
+    return dailyHourlyTotal;
+  }
 
-    for (let i = 0; i < 14; i++) {
-      const cookiesPerHour = Math.floor(
-        Math.abs(Math.random() * (max - min + 1) + min) * avg
-      );
+  useEffect(() => {
+    setHourlyTotal(getHourlyTotals(data));
+  }, [data]);
 
-      hourlyCookies.push(cookiesPerHour);
-      totalCookiesDaily += cookiesPerHour;
-    }
-    return { hourlyCookies, totalCookiesDaily };
+  const deleteLocation = (id) => {
+    data.splice(id, 1);
+    setData([...data]);
   };
-  console.log(totalOfTotal);
-  // useEffect(() => {
-  //   //! Depends on update the data from the form
-  //   console.log("Updates depends on the form");
-  // }, []);
-
-  // useEffect(() => {
-  //   //! Any change to the stat will this effect will run
-  //   if (data.length != 0) {
-  //     localStorage.setItem("cookies", JSON.stringify([...data]));
-  //   }
-  //   console.log("always will work");
-  // });
 
   return (
     <>
       <RenderHead title="Cookie Stand Admin" />
       <Header />
-      <Main handleForm={handleForm} data={data} />
+      <Main
+        handleForm={handleForm}
+        data={data}
+        dailyHourlyTotal={hourlyTotal}
+        deleteLocation={deleteLocation}
+      />
       <Footer total_locations={data.length} />
     </>
   );
