@@ -1,4 +1,4 @@
-// import { TrashIcon } from "@heroicons/react/outline";
+import { TrashIcon } from "@heroicons/react/outline";
 
 const TableBody = ({ cookiesData, deleteLocation }) => {
   return (
@@ -33,10 +33,10 @@ const TableBody = ({ cookiesData, deleteLocation }) => {
                 {item.totalCookiesDaily}
               </td>
               <td className="p-1 text-center border rounded-lg border-slate-700">
-                {/* <TrashIcon
+                <TrashIcon
                   className="h-6 mx-auto cursor-pointer"
                   onClick={() => deleteLocation(idx)}
-                /> */}
+                />
               </td>
             </tr>
           );

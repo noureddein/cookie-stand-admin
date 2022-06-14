@@ -8,10 +8,10 @@ const CookiesTable = ({ cookiesData, dailyHourlyTotal, deleteLocation }) => {
       <table className="border border-separate rounded-lg table-fixed border-slate-500">
         <TableHead />
         <TableBody cookiesData={cookiesData} deleteLocation={deleteLocation} />
-        {/* <TableFooter
+        <TableFooter
           dailyHourlyTotal={dailyHourlyTotal}
           haveData={cookiesData.length}
-        /> */}
+        />
       </table>
     </div>
   );
