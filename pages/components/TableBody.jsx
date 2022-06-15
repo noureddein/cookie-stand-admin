@@ -16,7 +16,7 @@ const TableBody = ({ cookiesData, deleteLocation }) => {
         cookiesData.map((item, idx) => {
           return (
             <tr key={idx}>
-              <td className="p-1 border rounded-lg border-slate-700">
+              <td className="p-1 capitalize border rounded-lg border-slate-700">
                 {item.location}
               </td>
               {item.cookiesPerHour.map((hourly, idx) => {
@@ -35,7 +35,7 @@ const TableBody = ({ cookiesData, deleteLocation }) => {
               <td className="p-1 text-center border rounded-lg border-slate-700">
                 <TrashIcon
                   className="h-6 mx-auto cursor-pointer"
-                  onClick={() => deleteLocation(idx)}
+                  onClick={() => deleteLocation(item.id)}
                 />
               </td>
             </tr>
