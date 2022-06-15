@@ -1,4 +1,4 @@
-import { hours } from "./services/helpers";
+import { hours } from "../../lib/helpers";
 const TableHead = () => {
   return (
     <thead>

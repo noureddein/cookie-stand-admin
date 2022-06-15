@@ -4,13 +4,13 @@ import {
   regenerateData,
   saveNewLocation,
   getHourlyTotals,
-} from "./components/services/helpers";
+} from "../lib/helpers";
 import Header from "./Header";
 import Main from "./Main";
 import RenderHead from "./RenderHead";
 import Footer from "./Footer";
 import LoginForm from "./Login";
-import http from "./components/services/httpService";
+import http from "../lib/httpService";
 
 const Home = () => {
   const [data, setData] = useState([]);

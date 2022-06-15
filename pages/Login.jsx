@@ -1,6 +1,6 @@
 import Form from "./components/common/Form";
 import Joi from "joi-browser";
-import auth from "./components/services/authService";
+import auth from "../lib/authService";
 
 class LoginForm extends Form {
   state = {

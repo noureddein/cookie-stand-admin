@@ -14,7 +14,7 @@ const Header = ({ token }) => {
     <>
       <header className="sticky top-0 flex items-center justify-between h-16 bg-green-400 ">
         <div className="flex flex-row items-center justify-center">
-          <Image src="/logo.png" width="70" height="70" />
+          <Image src="/logo.png" width="70" height="70" alt="logo" />
           <h2 className="text-4xl font-extrabold text-green-900 font-display">
             Cookie Stand Admin
           </h2>
