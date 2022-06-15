@@ -1,4 +1,4 @@
-import Form from "./components/common/Form";
+import Form from "../components/common/Form";
 import Joi from "joi-browser";
 import auth from "../lib/authService";
 
