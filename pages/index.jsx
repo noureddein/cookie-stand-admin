@@ -5,10 +5,10 @@ import {
   saveNewLocation,
   getHourlyTotals,
 } from "../lib/helpers";
-import Header from "./Header";
-import Main from "./Main";
+import Header from "../components/Header";
+import Main from "../components/Main";
 import RenderHead from "./RenderHead";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 import LoginForm from "./Login";
 import http from "../lib/httpService";
 

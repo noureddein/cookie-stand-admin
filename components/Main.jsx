@@ -1,6 +1,5 @@
-import CreateCookies from "./components/CreateCookies";
-import CookiesTable from "./components/CookiesTable";
-
+import CreateCookies from "./CreateCookies";
+import CookiesTable from "./CookiesTable";
 const Main = ({ handleForm, data, dailyHourlyTotal, deleteLocation }) => {
   return (
     <main className="flex flex-col items-center justify-center pb-16">
@@ -13,5 +12,4 @@ const Main = ({ handleForm, data, dailyHourlyTotal, deleteLocation }) => {
     </main>
   );
 };
-
 export default Main;
