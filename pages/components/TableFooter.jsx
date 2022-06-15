@@ -1,4 +1,4 @@
-import { hours } from "./services/helpers";
+import { hours } from "../../lib/helpers";
 import { useState, useEffect } from "react";
 
 const TableFooter = ({ dailyHourlyTotal, haveData }) => {
@@ -13,7 +13,7 @@ const TableFooter = ({ dailyHourlyTotal, haveData }) => {
 
   useEffect(() => {
     setDailyTotal(getDailyTotal());
-  }, [dailyHourlyTotal]);
+  }, [getDailyTotal]);
 
   return (
     <>
