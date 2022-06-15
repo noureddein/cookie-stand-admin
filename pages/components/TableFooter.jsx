@@ -1,10 +1,8 @@
-import { hours } from "../../data";
+import { hours } from "./services/helpers";
 import { useState, useEffect } from "react";
 
 const TableFooter = ({ dailyHourlyTotal, haveData }) => {
-  if (!haveData) return;
   const [dailyTotal, setDailyTotal] = useState(0);
-
   const getDailyTotal = () => {
     let total = 0;
     for (const hour in dailyHourlyTotal) {
@@ -19,7 +17,7 @@ const TableFooter = ({ dailyHourlyTotal, haveData }) => {
 
   return (
     <>
-      {
+      {haveData && (
         <tfoot>
           <tr>
             <th className="px-4 py-2 font-extrabold border rounded-lg font-display border-slate-600">
@@ -43,7 +41,7 @@ const TableFooter = ({ dailyHourlyTotal, haveData }) => {
             </th>
           </tr>
         </tfoot>
-      }
+      )}
     </>
   );
 };

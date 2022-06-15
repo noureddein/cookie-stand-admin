@@ -1,36 +1,32 @@
 import { useState, useEffect } from "react";
+import {
+  getHourlyCookies,
+  regenerateData,
+  saveNewLocation,
+  getHourlyTotals,
+} from "./components/services/helpers";
 import Header from "./Header";
 import Main from "./Main";
 import RenderHead from "./RenderHead";
 import Footer from "./Footer";
-import { getHourlyCookies, hours } from "../data";
+import LoginForm from "./Login";
+import http from "./components/services/httpService";
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [totalOfTotal, setTotalOfTotal] = useState(0);
   const [hourlyTotal, setHourlyTotal] = useState({});
-  const dailyHourlyTotal = {
-    "6am": 0,
-    "7am": 0,
-    "8am": 0,
-    "9am": 0,
-    "10am": 0,
-    "11am": 0,
-    "12pm": 0,
-    "1pm": 0,
-    "2pm": 0,
-    "3pm": 0,
-    "4pm": 0,
-    "5pm": 0,
-    "6pm": 0,
-    "7pm": 0,
+  const [token, setToken] = useState(null);
+  const config = {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
   };
 
-  const handleForm = (e) => {
+  const handleForm = async (e) => {
     e.preventDefault();
     const getCookieStand = {};
-    getCookieStand["location"] = e.target.location.value;
-
+    const location = e.target.location.value;
     const minCostumer = e.target.minCostumer.value;
     const maxCostumer = e.target.maxCostumer.value;
     const avgCookie = e.target.avgCookie.value;
@@ -40,41 +36,66 @@ const Home = () => {
       minCostumer,
       avgCookie
     );
+    getCookieStand["location"] = location;
     getCookieStand["cookiesPerHour"] = hourlyCookies;
     getCookieStand["totalCookiesDaily"] = totalCookiesDaily;
 
     setTotalOfTotal(totalOfTotal + totalCookiesDaily);
     setData(data.concat(getCookieStand));
+    saveNewLocation(location, minCostumer, maxCostumer, avgCookie, config);
   };
 
-  function getHourlyTotals(data) {
-    data.forEach((item) => {
-      for (let i = 0; i < item["cookiesPerHour"].length; i++) {
-        dailyHourlyTotal[hours[i]] += item["cookiesPerHour"][i];
+  const deleteLocation = async (id) => {
+    try {
+      await http.delete(`cookies-location-details/${id}`, config);
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const res = await http.get("/cookies-location", config);
+      const holder = regenerateData(res.data);
+      setData(data.concat(holder));
+    } catch (ex) {
+      console.log(ex);
+      if (ex.response.status == 401 && token) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        window.location.href = "/";
       }
-    });
-    return dailyHourlyTotal;
-  }
+    }
+  };
 
   useEffect(() => {
     setHourlyTotal(getHourlyTotals(data));
   }, [data]);
 
-  const deleteLocation = (id) => {
-    data.splice(id, 1);
-    setData([...data]);
-  };
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) setToken(accessToken);
+  }, []);
+
+  useEffect(() => {
+    if (token) getData();
+  }, [token]);
 
   return (
     <>
       <RenderHead title="Cookie Stand Admin" />
-      <Header />
-      <Main
-        handleForm={handleForm}
-        data={data}
-        dailyHourlyTotal={hourlyTotal}
-        deleteLocation={deleteLocation}
-      />
+      <Header token={token} />
+      {token ? (
+        <Main
+          handleForm={handleForm}
+          data={data}
+          dailyHourlyTotal={hourlyTotal}
+          deleteLocation={deleteLocation}
+        />
+      ) : (
+        <LoginForm />
+      )}
       <Footer total_locations={data.length} />
     </>
   );
